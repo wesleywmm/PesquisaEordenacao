@@ -1,7 +1,5 @@
 package ListadeLista;
 
-import java.nio.file.AccessDeniedException;
-
 public class Lista {
     
     private Estado inicio;
@@ -89,6 +87,33 @@ public class Lista {
             aux.setProx_est(nova);
         }
     }
+
+    public void inserirEstadoOC(String nome){
+
+        Estado nova = new Estado(nome, null, null);
+
+            Estado atual = inicio;
+            Estado ant = null;
+
+            while(atual != null && nome.compareTo(atual.getNome())>=0)
+            {
+                ant = atual;
+                atual = atual.getProx_est();
+            }
+
+            if(ant == null)
+            {
+                nova.setProx_est(inicio);
+                inicio = nova;
+            }
+            else
+            {
+                ant.setProx_est(nova);
+                nova.setProx_est(atual);
+            }
+        
+    }
+
 
     public void inserirCidade(String nome){
 
