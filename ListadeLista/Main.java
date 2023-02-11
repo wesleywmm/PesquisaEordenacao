@@ -26,6 +26,8 @@ public class Main {
       //System.out.println(lista.buscarEstado("PARANÁ")); 
       //System.out.println(lista.buscarCidade("apucarana"));
 
+      //System.out.println("Achou? "+lista.buscaPares("paraná", "Maringa"));
+
 
     }
 

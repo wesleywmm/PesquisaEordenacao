@@ -1,5 +1,7 @@
 package ListadeLista;
 
+import java.nio.file.AccessDeniedException;
+
 public class Lista {
     
     private Estado inicio;
@@ -26,10 +28,9 @@ public class Lista {
         } 
         
         return null;
-
     }   
 
-    public Cidade buscarCidade(String nome)
+    public Cidade buscarCidade(String nome) 
     {
         Estado auxE = inicio;
 
@@ -48,11 +49,27 @@ public class Lista {
         return null;
     }
     
+    public boolean buscarCidadeEstado(String nome, Estado no)   
+    {
+        Cidade aux = no.getProx_cid();
+
+        while(aux != null && !aux.getNome().equalsIgnoreCase(nome))
+            aux = aux.getProx();
+        
+        if(aux != null && aux.getNome().equalsIgnoreCase(nome))
+                return true;
+        
+        return false;
+    }
+
     public boolean buscaPares(String nomeEstado, String nomeCidade)
     {
-        
+        Estado buscaEstado = buscarEstado(nomeEstado);
 
-        return false;
+        if(buscaEstado != null) 
+            return (buscarCidadeEstado(nomeCidade, buscaEstado));
+        else
+            return false;
     }
 
 
