@@ -5,44 +5,38 @@ public class Main {
     public static void main(String[] args) {
      
         Lista lista = new Lista();
-        
         lista.inicializa();
 
+        /*
         lista.inserirEstadoOC("Paraná");
         lista.inserirEstadoOC("R");
         lista.inserirEstadoOC("W");
-        lista.inserirEstadoOC("Q");
-        lista.inserirEstadoOC("C");
-        lista.inserirEstadoOC("I");
-        lista.inserirEstadoOC("F");
-        lista.inserirEstadoOC("K");
         lista.inserirEstadoOC("A");
-        lista.inserirEstadoOC("O");
-        lista.inserirEstadoOC("D");
-        lista.inserirEstadoOC("Z");
         lista.inserirEstadoOC("E");
+        */
+        
+        // item A.
+        lista.inserirPares("Teste1", "Paraná");
+        lista.inserirPares("Teste2", "R");
+        lista.inserirPares("Teste3", "Paraná");
+        lista.inserirPares("Teste4", "A");
+        lista.inserirPares("Teste5", "E");
+        lista.inserirPares("Teste6", "W");
 
+        // item B.
         
 
-      /* 
-        lista.inserirCidade("Apucarana");
-        lista.inserirCidade("Arapongas");
-        lista.inserirCidade("Maringa");
+        // item C.
+        Estado est = lista.buscarEstado("Paraná");
+        System.out.println("Estado: "+est);
+        // item D.
+        lista.exibirCidades("Paraná");
 
-    
-        lista.inserirCidade2("Apucarana", "Paraná");
-        lista.inserirCidade2("ApucaranaB", "Paraná");
-        lista.inserirCidade2("ApucaranaC", "Paraná");
-        lista.inserirCidade2("Blumenal", "Santa Catarina");
-      */
-
-      lista.exibirTudo();
-      //System.out.println(lista.buscarEstado("PARANÁ")); 
-      //System.out.println(lista.buscarCidade("apucarana"));
-
-      //System.out.println("Achou? "+lista.buscaPares("paraná", "Maringa"));
-
-
+        // item E.
+        System.out.println("Achou? "+lista.buscarPares("paraná", "teste3"));
+        System.out.println("Achou? "+lista.buscarPares("paraná", "teste11"));
+        
+        lista.exibirTudo();
     }
 
 }

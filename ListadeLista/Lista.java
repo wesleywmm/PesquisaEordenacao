@@ -12,7 +12,7 @@ public class Lista {
         this.inicio = null;
     }
     
-    public Estado buscarEstado(String nome){
+    public Estado buscarEstado(String nome){        // item C.
 
         Estado aux = inicio;
 
@@ -47,7 +47,7 @@ public class Lista {
         return null;
     }
     
-    public boolean buscarCidadeEstado(String nome, Estado no)   
+    public boolean buscarCidadeEstado(String nome, Estado no)       // so é chamado se nao for nula
     {
         Cidade aux = no.getProx_cid();
 
@@ -60,7 +60,7 @@ public class Lista {
         return false;
     }
 
-    public boolean buscaPares(String nomeEstado, String nomeCidade)
+    public boolean buscarPares(String nomeEstado, String nomeCidade) // item E.
     {
         Estado buscaEstado = buscarEstado(nomeEstado);
 
@@ -70,25 +70,45 @@ public class Lista {
             return false;
     }
 
+    public boolean buscarEstadoBoolean(String nome)
+    {
+        Estado aux = inicio;
 
-    public void inserirEstado(String nome){
+        if(aux != null)
+        {     
+            while(aux.getProx_est() != null && !aux.getNome().equalsIgnoreCase(nome))
+                aux = aux.getProx_est();
+
+            if(aux!=null && aux.getNome().equalsIgnoreCase(nome))
+                return true;
+        }    
+        return false;
+    }
+
+    public void inserirEstado(String nome){             //insere tipo fila
 
         Estado nova = new Estado(nome, null, null);
 
-        if(inicio == null)
-            inicio = nova;
-        else
+        if(!buscarEstadoBoolean(nome))
         {
-            Estado aux = inicio;
+            if(inicio == null)
+            inicio = nova;
+            else
+            {
+                Estado aux = inicio;
 
-            while(aux.getProx_est()!= null)
-                aux = aux.getProx_est();
+                while(aux.getProx_est()!= null)
+                    aux = aux.getProx_est();
 
-            aux.setProx_est(nova);
+                aux.setProx_est(nova);
+            }
         }
+        else
+            System.out.println("Estado ja cadastrado!");
+        
     }
 
-    public void inserirEstadoOC(String nome){
+    public void inserirEstadoOC(String nome){           //insere estado em ordem crescente
 
         Estado nova = new Estado(nome, null, null);
 
@@ -111,76 +131,29 @@ public class Lista {
                 ant.setProx_est(nova);
                 nova.setProx_est(atual);
             }
-        
+      
     }
 
+    public void inserirPares(String nome_cidade, String nome_estado)  //item A.
+    {  
+            inserirEstado(nome_estado);
+            Estado busca = buscarEstado(nome_estado);
+            Cidade nova_cid = new Cidade(nome_cidade, null);
 
-    public void inserirCidade(String nome){
-
-        Cidade nova = new Cidade(nome, null);
-
-        if(inicio != null)
-            if(inicio.getProx_cid() == null)
-                inicio.setProx_cid(nova);
-            else
-                if(inicio.getProx_cid()!= null)
-                {
-                    Cidade aux = inicio.getProx_cid();
-
-                    while(aux.getProx()!=null)
-                        aux = aux.getProx();
-
-                    aux.setProx(nova);
-                }
-    }
-
-    public void inserirCidade2(String nome, String nome_estado){
-
-        Cidade nova = new Cidade(nome, null);
-
-        if(inicio != null && inicio.getNome().equalsIgnoreCase(nome_estado))
-            if(inicio.getProx_cid() == null)
-                inicio.setProx_cid(nova);
-            else
-                if(inicio.getProx_cid()!= null)
-                {
-                    Cidade aux = inicio.getProx_cid();
-
-                    while(aux.getProx()!=null)
-                        aux = aux.getProx();
-
-                    aux.setProx(nova);
-                }
+            if(busca.getProx_cid() == null)
+                busca.setProx_cid(nova_cid);
             else
             {
-                Estado aux = inicio;
+                Cidade aux = busca.getProx_cid();
+                
+                while(aux.getProx()!=null)
+                        aux = aux.getProx();
 
-                while(aux.getProx_est() != null && !aux.getProx_est().getNome().equalsIgnoreCase(nome_estado))
-                    aux = aux.getProx_est();
-
-                if(aux.getProx_est()!= null && aux.getProx_est().getNome().equalsIgnoreCase(nome_estado))
-                {
-                    if(inicio.getProx_cid() == null)
-                      inicio.setProx_cid(nova);
-                    else
-                    if(inicio.getProx_cid()!= null)
-                    {
-                        Cidade aux2 = inicio.getProx_cid();
-
-                        while(aux2.getProx()!=null)
-                            aux2 = aux2.getProx();
-
-                        aux2.setProx(nova);
-                    }
-                }
-                else
-                 System.out.println("Estado nao existe: ");
+                aux.setProx(nova_cid);
             }
-    }
+        }
 
-
-
-    public void exibirEstado(){
+    public void exibirEstado(){ //exibe todos estados
 
         Estado aux = inicio;
 
@@ -191,16 +164,32 @@ public class Lista {
         }
     }
 
-    public void exibirTudo(){
+    public void exibirCidades(String nome_estado)           // item D.
+    {
+        Estado aux = buscarEstado(nome_estado);
+
+        if(aux != null)
+        {
+            Cidade cidaux = aux.getProx_cid();
+            while(cidaux != null)
+            {
+                System.out.println("Cidade: "+cidaux.getNome());
+                cidaux = cidaux.getProx();   
+            }
+        }
+        else   
+            System.out.println("Este Estado nao possui nenhuma cidade Cadastrada!");
+    }
+
+    public void exibirTudo(){  // exibe todos estados e suas cidades
 
         Estado aux = inicio;
         
-        if(inicio != null)
+        if(aux != null)
         {
-            Cidade aux2 = inicio.getProx_cid();
-            
             while(aux != null)
             {
+                Cidade aux2 = aux.getProx_cid();
                 System.out.println("Estado: "+aux.getNome());
                 while(aux2!=null)
                 {
@@ -213,8 +202,6 @@ public class Lista {
         else   
             System.out.println("Lista vazia");
     }
-
-
 
 
 }
