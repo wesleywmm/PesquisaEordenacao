@@ -154,6 +154,35 @@ public class ListaEncadeada {
         } 
     }
 
+    public void shake()
+    {
+        No ini = inicio, fi = fim.getAnt(), i;
+        int aux;
+
+        while(ini != fi)
+        {
+            for(i = ini; i != fi; i = i.getProx())
+                if(i.getInfo() > i.getProx().getInfo())
+                {
+                    aux = i.getInfo();
+                    i.setInfo(i.getProx().getInfo());
+                    i.getProx().setInfo(aux);
+                }
+            
+            fi = fi.getAnt();
+            
+            for(i = fi; i != ini; i = i.getAnt())
+               if(i.getInfo() < i.getAnt().getInfo())
+               {
+                    aux = i.getInfo();
+                    i.setInfo(i.getAnt().getInfo());
+                    i.getAnt().setInfo(aux);
+               }
+                
+            ini = ini.getProx();
+        }
+    }
+
     public void exibir()
     {
         No aux = inicio;
