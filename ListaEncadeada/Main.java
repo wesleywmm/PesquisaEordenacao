@@ -21,6 +21,8 @@ public class Main {
 
         //lista.insercaoDireta();
         //lista.selecaoDireta();
+        //lista.bubbleSort();
+
         lista.exibir();
     }
 }

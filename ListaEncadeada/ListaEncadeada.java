@@ -132,6 +132,28 @@ public class ListaEncadeada {
         
     }   
 
+    public void bubbleSort()
+    {
+        No pI = inicio, TL2 = fim;
+        int aux; 
+        
+        while(TL2.getAnt() != null)
+        {
+            while(pI.getProx() != null)
+            {
+                if(pI.getInfo() > pI.getProx().getInfo())
+                {
+                    aux = pI.getInfo();
+                    pI.setInfo(pI.getProx().getInfo());
+                    pI.getProx().setInfo(aux);
+                }
+                 pI = pI.getProx();
+            }
+            pI = inicio;
+            TL2 = TL2.getAnt();
+        } 
+    }
+
     public void exibir()
     {
         No aux = inicio;
