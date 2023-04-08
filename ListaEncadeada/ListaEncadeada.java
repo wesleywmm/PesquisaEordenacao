@@ -220,6 +220,37 @@ public class ListaEncadeada {
 
     }
    
+    public void heap()
+    {
+        int TL2 = tamanho, FE, FD, maiorF, aux;
+
+        while(TL2 > 1)
+        {
+            for(int pai = TL2/2-1; pai >=0; pai--)
+            {
+                FE = 2*pai+1;
+                FD = FE+1;
+                maiorF = FE;
+
+                if(FD < TL2 && retornaDist(FD).getInfo() > retornaDist(FE).getInfo())
+                    maiorF = FD;
+
+                if(retornaDist(maiorF).getInfo() > retornaDist(pai).getInfo())
+                {
+                    aux = retornaDist(maiorF).getInfo();
+                    retornaDist(maiorF).setInfo(retornaDist(pai).getInfo());
+                    retornaDist(pai).setInfo(aux);
+                }
+            }
+
+            aux = inicio.getInfo();
+            inicio.setInfo(retornaDist(TL2-1).getInfo());
+            retornaDist(TL2-1).setInfo(aux);
+            TL2 --;
+        }
+
+    }
+
     public void exibir()
     {
         No aux = inicio;

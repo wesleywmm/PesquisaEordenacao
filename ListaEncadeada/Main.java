@@ -13,6 +13,8 @@ public class Main {
         lista.inserirNoFim(60);
         lista.inserirNoFim(50);
         lista.inserirNoFim(12);
+        lista.inserirNoFim(1);
+        lista.inserirNoInicio(16);
         lista.exibir();
 
         //System.out.println(lista.busca_exaustiva(11));
@@ -24,6 +26,7 @@ public class Main {
         //lista.bubbleSort(); 
         //lista.shake();
         //lista.shell();
+        //lista.heap();
         
         lista.exibir();
     }
