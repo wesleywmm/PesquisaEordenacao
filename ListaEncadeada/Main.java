@@ -17,8 +17,9 @@ public class Main {
 
         //System.out.println(lista.busca_exaustiva(11));
         //System.out.println(lista.busca_exaustiva(10).getAnt().getInfo());
-
-        lista.remover(50);
+        //lista.remover(20);
+        
+        lista.insercaoDireta();
         lista.exibir();
     }
 }

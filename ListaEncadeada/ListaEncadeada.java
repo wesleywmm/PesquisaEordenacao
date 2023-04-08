@@ -79,6 +79,28 @@ public class ListaEncadeada {
        }  
 
     }
+
+    public void insercaoDireta()
+    {
+        int aux;
+
+        No pi = inicio.getProx(), ppos;
+
+        while(pi != null)
+        {
+            aux = pi.getInfo();
+            ppos = pi;
+
+            while(ppos != inicio && aux < ppos.getAnt().getInfo())
+            {
+                ppos.setInfo(ppos.getAnt().getInfo());
+                ppos = ppos.getAnt();   
+            }
+            ppos.setInfo(aux);
+            pi = pi.getProx();
+        }
+
+    }
     
     public void exibir()
     {
