@@ -45,49 +45,38 @@ public class ListaEncadeada {
     {   
         No busca = inicio;
 
-        if(inicio.getInfo() == info)
-            return inicio;
-        else
-        {
-            while(busca.getProx()!=null && busca.getInfo()!=info)
+            while(busca!=null && busca.getInfo()!=info)
                 busca = busca.getProx();
-
-            if(busca!=null && busca.getInfo()==info)
-                return busca;
-            else
-                return null;
-        }
-
+        
+        return busca;
     }
 
     public void remover(int info)
     {
-       if(inicio.getInfo() == info)
+       No aux = busca_exaustiva(info);
+       
+       if(aux != null)
        {
-            inicio = inicio.getProx();
-            inicio.setAnt(null);
-       }
-       else
-        if(fim.getInfo() == info)
-        {
-            fim = fim.getAnt();
-            fim.setProx(null);
-        }
-        else
-        {
-            No aux = inicio;
-
-            while(aux.getProx() != null && aux.getInfo()!= info)
-                aux = aux.getProx();
-            
-            if(aux!=null && aux.getInfo()==info)
+         if(inicio == fim)
+            inicializa();
+         else
+            if(aux == inicio)
             {
-                aux.getAnt().setProx(aux.getProx());
-                aux.getProx().setAnt(aux.getAnt());
+                inicio = inicio.getProx();
+                inicio.setAnt(null);
             }
             else
-                System.out.println("Nao encontrado!");
-        }
+                if(aux == fim)
+                {
+                    fim = fim.getAnt();
+                    fim.setProx(null);
+                }
+                else
+                {
+                    aux.getAnt().setProx(aux.getProx());
+                    aux.getProx().setAnt(aux.getAnt());      
+                }
+       }  
 
     }
     
