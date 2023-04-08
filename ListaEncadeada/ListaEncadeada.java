@@ -102,6 +102,36 @@ public class ListaEncadeada {
 
     }
     
+    public void selecaoDireta()
+    {
+        No pI, pJ, pMenor;
+        int menor;
+        
+        pI = inicio;
+
+        while(pI.getProx() != null)
+        {
+            pMenor = pI;
+            menor = pI.getInfo();
+            pJ = pI.getProx();
+
+            while(pJ != null)
+            {
+                if(pJ.getInfo() < menor)
+                {
+                    pMenor = pJ;
+                    menor = pJ.getInfo();
+                }
+                pJ =pJ.getProx();   
+            }
+
+            pMenor.setInfo(pI.getInfo());
+            pI.setInfo(menor);
+            pI = pI.getProx();
+        }
+        
+    }   
+
     public void exibir()
     {
         No aux = inicio;
