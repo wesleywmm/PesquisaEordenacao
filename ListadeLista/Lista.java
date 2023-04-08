@@ -131,7 +131,7 @@ public class Lista {
                 ant.setProx_est(nova);
                 nova.setProx_est(atual);
             }
-      
+            
     }
 
     public void inserirPares(String nome_cidade, String nome_estado)  //item A.
@@ -151,7 +151,7 @@ public class Lista {
 
                 aux.setProx(nova_cid);
             }
-        }
+    }
 
     public void exibirEstado(){ //exibe todos estados
 

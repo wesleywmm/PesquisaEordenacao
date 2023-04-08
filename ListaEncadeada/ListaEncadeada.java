@@ -3,6 +3,7 @@ package ListaEncadeada;
 public class ListaEncadeada {
     
     private No inicio, fim;
+    private int tamanho = 0;
 
     public ListaEncadeada() {
     }
@@ -25,6 +26,7 @@ public class ListaEncadeada {
             nova.setProx(inicio);
             inicio = nova;
         }
+        tamanho ++;
     }
 
     public void inserirNoFim (int info)
@@ -39,6 +41,7 @@ public class ListaEncadeada {
             nova.setAnt(fim);
             fim = nova;
         }
+        tamanho ++;
     }
 
     public No busca_exaustiva(int info)
@@ -76,8 +79,8 @@ public class ListaEncadeada {
                     aux.getAnt().setProx(aux.getProx());
                     aux.getProx().setAnt(aux.getAnt());      
                 }
-       }  
-
+        tamanho --;  
+        }  
     }
 
     public void insercaoDireta()
@@ -156,10 +159,10 @@ public class ListaEncadeada {
 
     public void shake()
     {
-        No ini = inicio, fi = fim.getAnt(), i;
+        No ini = inicio, fi = fim, i;
         int aux;
 
-        while(ini != fi)
+        while(ini != fi.getAnt())
         {
             for(i = ini; i != fi; i = i.getProx())
                 if(i.getInfo() > i.getProx().getInfo())
@@ -168,9 +171,7 @@ public class ListaEncadeada {
                     i.setInfo(i.getProx().getInfo());
                     i.getProx().setInfo(aux);
                 }
-            
-            fi = fi.getAnt();
-            
+
             for(i = fi; i != ini; i = i.getAnt())
                if(i.getInfo() < i.getAnt().getInfo())
                {
@@ -183,6 +184,42 @@ public class ListaEncadeada {
         }
     }
 
+    public No retornaDist(int dist)
+    {
+        No busca = inicio;
+        for(; dist > 0; dist --)
+            busca = busca.getProx(); 
+        return busca;
+    }
+
+    public void shell()
+    {
+        int dist, aux;
+        dist = 4;
+
+        while(dist > 0)
+        {
+            for(int i = 0; i < dist; i++)
+                for(int j = i; j + dist < tamanho; j = j+dist)
+                    if(retornaDist(j).getInfo() > retornaDist(j+dist).getInfo())
+                    {
+                        aux = retornaDist(j).getInfo();
+                        retornaDist(j).setInfo(retornaDist(j+dist).getInfo());
+                        retornaDist(j+dist).setInfo(aux);
+                     
+                        for(int k = j; k - dist >= i && retornaDist(k).getInfo() < retornaDist(k-dist).getInfo(); k = k - dist)
+                        {
+                            aux = retornaDist(k).getInfo();
+                            retornaDist(k).setInfo(retornaDist(k-dist).getInfo());
+                            retornaDist(k-dist).setInfo(aux);
+                        }
+                    }
+            
+                    dist = dist / 2;
+        }
+
+    }
+   
     public void exibir()
     {
         No aux = inicio;
@@ -192,6 +229,8 @@ public class ListaEncadeada {
             System.out.println("Info: "+aux.getInfo());
             aux = aux.getProx();
         }
+
+        System.out.println("Tamanho: "+tamanho);
     }
 
     
