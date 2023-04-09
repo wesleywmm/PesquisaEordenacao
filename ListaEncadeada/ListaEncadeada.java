@@ -87,7 +87,7 @@ public class ListaEncadeada {
         tamanho --;  
         }  
     }
-
+    
     public void insercaoDireta()
     {
         int aux;
@@ -312,6 +312,44 @@ public class ListaEncadeada {
         if(i < fi)
             quickComPivo(i, fi);
         
+    }
+
+    public int buscaBinaria(int chave, int fi)
+    {
+        int ini = 0, fim = fi-1, meio = fim/2 ; 
+        No posMeio = retornaDist(meio);
+
+        while(ini < fim && chave != posMeio.getInfo())
+        {
+            if(chave < posMeio.getInfo())
+                fim = meio-1;
+            else
+                ini = meio +1;
+            
+            meio = (ini+fim)/2;
+            posMeio = retornaDist(meio);
+        }
+        posMeio = retornaDist(meio);
+        if(chave > posMeio.getInfo())
+            return meio+1;
+        else   
+            return meio;
+    }
+
+    public void insercaoBinaria()
+    {
+        int pos, aux;
+
+        for(int i = 1; i< tamanho; i++)
+        {
+            aux = retornaDist(i).getInfo();
+            pos = buscaBinaria(aux, i);
+
+            for(int j = i; j>pos; j--)
+                retornaDist(j).setInfo(retornaDist(j-1).getInfo());
+            
+            retornaDist(pos).setInfo(aux);
+        }
     }
 
     public void exibir()
