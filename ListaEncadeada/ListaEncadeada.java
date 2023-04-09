@@ -1,9 +1,11 @@
 package ListaEncadeada;
 
+import java.util.Random;
+
 public class ListaEncadeada {
     
     private No inicio, fim;
-    private int tamanho = 0;
+    private int tamanho;
 
     public ListaEncadeada() {
         inicio = fim = null;
@@ -13,7 +15,44 @@ public class ListaEncadeada {
     {
         this.inicio = null;
         this.fim = null;
+        this.tamanho = 0;
     }
+
+    public void gerarListaPredefinida()
+    {
+        inicializa();
+        inserirNoInicio(10);
+        inserirNoInicio(20);
+        inserirNoInicio(30);
+        inserirNoFim(60);
+        inserirNoFim(50);
+        inserirNoFim(12);
+        inserirNoFim(1);
+        inserirNoInicio(16);
+    }
+
+    public void gerarListaAleatoria(int qntNumeros)
+    {
+        inicializa();
+        Random random = new Random();
+        int numAleatorio = random.nextInt(100) + 1;
+        boolean flag = true;
+
+        for(int i = 0; i < qntNumeros; i++)
+        {
+            if(flag)
+                inserirNoInicio(numAleatorio);
+            else   
+                inserirNoFim(numAleatorio);
+            
+            flag = !flag;
+
+            numAleatorio = random.nextInt(100) + 1;
+        }
+
+
+    }
+
     
     public int getTamanho()
     {
@@ -335,7 +374,7 @@ public class ListaEncadeada {
                 fim = meio-1;
             else
                 ini = meio +1;
-            
+
             meio = (ini+fim)/2;
             posMeio = retornaDist(meio);
         }
@@ -357,7 +396,7 @@ public class ListaEncadeada {
 
             for(int j = i; j>pos; j--)
                 retornaDist(j).setInfo(retornaDist(j-1).getInfo());
-            
+
             retornaDist(pos).setInfo(aux);
         }
     }
@@ -672,10 +711,23 @@ public class ListaEncadeada {
         System.out.println("Tamanho: "+tamanho);
     }
 
-    public void exibirFormatado(){
+    public void exibirDesordenado()
+    {
+        No aux = inicio;
+        System.out.print("Numeros Desordenados:\t[");
+        while(aux != null){
+            System.out.print(" "+aux.getInfo());
+            aux = aux.getProx();
+        }
+        System.out.println(" ]");
+    }
+
+
+    public void exibirFormatado()
+    {
         No aux = inicio;
         
-        System.out.print("\t[");
+        System.out.print("Numeros Ordenados:\t[");
         while(aux != null){
             System.out.print(" "+aux.getInfo());
             aux = aux.getProx();
