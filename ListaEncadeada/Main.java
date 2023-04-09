@@ -34,9 +34,11 @@ public class Main {
         //lista.insercaoBinaria();
         //lista.mergeSort_priImp();
         //lista.mergeSort_segImp(lista);
+        //lista.gnomeSort();
+        //lista.combSort();
         
         lista.exibirFormatado();
-        lista.gnomeSort();
+        
         lista.exibirFormatado();
     }
 
