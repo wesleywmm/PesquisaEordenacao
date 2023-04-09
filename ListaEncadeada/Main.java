@@ -37,6 +37,7 @@ public class Main {
         //lista.gnomeSort();
         //lista.combSort();
         //lista.timSort();
+        //lista.radixSort();
         
         lista.exibirFormatado();
         

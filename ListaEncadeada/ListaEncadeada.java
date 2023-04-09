@@ -517,11 +517,67 @@ public class ListaEncadeada {
         }
     }
 
-    int min(int a, int b)
+    public int min(int a, int b)
     {  
         if(a < b)  
             return a;      
         return b;   
+    }
+
+    public int maiorValor()
+    {
+        No aux = inicio;
+        int maior = inicio.getInfo();
+        
+        for (int i = 1; i <= tamanho; i++)
+        {
+            if (aux.getInfo() > maior)
+                maior = aux.getInfo();
+            aux = aux.getProx();
+        }
+        return maior;
+    }
+    
+    public void countingSort(int exp)
+    {
+        No p = inicio;
+        
+        int aux[] = new int[tamanho]; 
+        int count[] = new int[10];
+        
+        for(int i=0; i<10; i++)
+            count[i] = 0;
+
+        for (int i = 0; i < tamanho; i++)
+        {
+            count[(p.getInfo()/exp) % 10]++;
+            p = p.getProx();
+        }
+ 
+        for (int i = 1; i < 10; i++)
+            count[i] += count[i - 1];
+ 
+        for (int i = tamanho-1; i >= 0; i--) 
+        {
+            p = retornaDist(i);
+            aux[count[(p.getInfo()/exp) % 10] - 1] = p.getInfo();
+            count[(p.getInfo()/exp) % 10]--;
+        }
+ 
+        p = inicio;
+        for (int i = 0; i < tamanho; i++)
+        {
+            p.setInfo(aux[i]);
+            p = p.getProx();
+        }
+    }
+
+    public void radixSort()
+    {
+        int max = maiorValor();
+ 
+        for (int espo = 1; max/espo > 0; espo = espo * 10)
+            countingSort(espo);
     }
 
     public void insercaoDiretaTim(int ini, int fi){
@@ -545,7 +601,7 @@ public class ListaEncadeada {
     public void mergeTim(int esq, int meio, int dir) {
         ListaEncadeada l1 = new ListaEncadeada();
         ListaEncadeada l2 = new ListaEncadeada();
-        
+
         int tl1=meio-esq+1, tl2=(dir-meio);
         int i, j, k;
         
