@@ -489,6 +489,34 @@ public class ListaEncadeada {
 
     }
     
+    public int getNextGap(int gap){
+        gap = (int)(gap/1.2473);
+        if (gap < 1)
+            return 1;
+        return gap;
+    }
+
+    public void combSort()
+    {
+        int TL = tamanho, gap = TL;
+        boolean swapped = true;
+        
+        while (gap != 1 || swapped == true){
+            gap = getNextGap(gap);
+            swapped = false;
+            
+            for (int i=0; i<TL-gap; i++)
+            {
+                if (retornaDist(i).getInfo() > retornaDist(i+gap).getInfo()){
+                    int aux = retornaDist(i).getInfo();
+                    retornaDist(i).setInfo(retornaDist(i+gap).getInfo());
+                    retornaDist(i+gap).setInfo(aux);
+                    swapped = true;
+                }
+            }
+        }
+    }
+
     public void exibir()
     {
         No aux = inicio;
