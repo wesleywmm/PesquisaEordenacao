@@ -284,10 +284,39 @@ public class ListaEncadeada {
 
     }
 
+    public void quickComPivo(int ini, int fi)
+    {
+        int i = ini, j = fi, aux, pivo;
+        pivo = retornaDist((ini+fi)/2).getInfo();
+
+        while(i < j)
+        {
+            while(retornaDist(i).getInfo() < pivo)
+                i++;
+
+            while(retornaDist(j).getInfo() > pivo)
+                j--;
+            
+            if(i <= j)
+            {
+                aux = retornaDist(i).getInfo();
+                retornaDist(i).setInfo(retornaDist(j).getInfo());
+                retornaDist(j).setInfo(aux);
+                i++;
+                j--;
+            }
+        }
+
+        if(ini < j)
+            quickComPivo(ini, j);
+        if(i < fi)
+            quickComPivo(i, fi);
+        
+    }
+
     public void exibir()
     {
         No aux = inicio;
-
         while(aux != null)
         {
             System.out.println("Info: "+aux.getInfo());

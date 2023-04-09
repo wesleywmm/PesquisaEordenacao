@@ -28,8 +28,8 @@ public class Main {
         //lista.shell();
         //lista.heap();
         //lista.quickSemPivo(0, lista.getTamanho()-1);
+        //lista.quickComPivo(0, lista.getTamanho()-1);
 
-        
         lista.exibir();
     }
 }
