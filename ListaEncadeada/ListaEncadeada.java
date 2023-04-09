@@ -1,7 +1,5 @@
 package ListaEncadeada;
 
-import ListadeLista.Lista;
-
 public class ListaEncadeada {
     
     private No inicio, fim;
@@ -470,7 +468,26 @@ public class ListaEncadeada {
         mergeSort(Laux, 0, tamanho-1);
     }
 
+    public void gnomeSort()
+    {
+        int i = 0, aux;
 
+        while(i <= tamanho-1)
+        {
+            if(i == 0)
+                i++;
+            if(retornaDist(i).getInfo() >= retornaDist(i-1).getInfo())
+                i++;
+            else
+            {
+                aux = retornaDist(i).getInfo();
+                retornaDist(i).setInfo(retornaDist(i-1).getInfo());
+                retornaDist(i-1).setInfo(aux);
+                i--;
+            }
+        }
+
+    }
     
     public void exibir()
     {
@@ -482,6 +499,17 @@ public class ListaEncadeada {
         }
 
         System.out.println("Tamanho: "+tamanho);
+    }
+
+    public void exibirFormatado(){
+        No aux = inicio;
+        
+        System.out.print("\t[");
+        while(aux != null){
+            System.out.print(" "+aux.getInfo());
+            aux = aux.getProx();
+        }
+        System.out.println(" ]");
     }
 
     
