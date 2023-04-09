@@ -14,6 +14,11 @@ public class ListaEncadeada {
         this.fim = null;
     }
     
+    public int getTamanho()
+    {
+        return tamanho;
+    }
+
     public void inserirNoInicio(int info)
     {
         No nova = new No(null, null, info);
@@ -248,6 +253,34 @@ public class ListaEncadeada {
             retornaDist(TL2-1).setInfo(aux);
             TL2 --;
         }
+
+    }
+
+    public void quickSemPivo(int ini, int fi)
+    {
+        int i = ini, j = fi, aux;
+
+        while(i<j)
+        {
+            while(i<j && retornaDist(i).getInfo() <= retornaDist(j).getInfo())
+                i++;
+
+            aux = retornaDist(i).getInfo();
+            retornaDist(i).setInfo(retornaDist(j).getInfo());
+            retornaDist(j).setInfo(aux);
+
+            while(i<j && retornaDist(j).getInfo() >= retornaDist(i).getInfo())
+                j--;
+            
+            aux = retornaDist(i).getInfo();
+            retornaDist(i).setInfo(retornaDist(j).getInfo());
+            retornaDist(j).setInfo(aux);
+        }
+
+        if(ini < i-1)
+            quickSemPivo(ini, i-1); 
+        if(j+1 < fi)
+            quickSemPivo(j+1, fi);  
 
     }
 

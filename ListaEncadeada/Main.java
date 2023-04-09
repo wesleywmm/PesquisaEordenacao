@@ -27,6 +27,8 @@ public class Main {
         //lista.shake();
         //lista.shell();
         //lista.heap();
+        //lista.quickSemPivo(0, lista.getTamanho()-1);
+
         
         lista.exibir();
     }
