@@ -9,6 +9,7 @@ public class Main {
         lista = new ListaEncadeada();
     }
 
+
     public void executa()
     {
         lista.gerarListaAleatoria(20);

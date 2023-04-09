@@ -49,11 +49,8 @@ public class ListaEncadeada {
 
             numAleatorio = random.nextInt(100) + 1;
         }
-
-
     }
-
-    
+   
     public int getTamanho()
     {
         return tamanho;
@@ -722,12 +719,11 @@ public class ListaEncadeada {
         System.out.println(" ]");
     }
 
-
     public void exibirFormatado()
     {
         No aux = inicio;
-        
-        System.out.print("Numeros Ordenados:\t[");
+
+        System.out.print("Numeros Ordenados: \t[");
         while(aux != null){
             System.out.print(" "+aux.getInfo());
             aux = aux.getProx();
