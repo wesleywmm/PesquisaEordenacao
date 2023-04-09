@@ -6,6 +6,7 @@ public class ListaEncadeada {
     private int tamanho = 0;
 
     public ListaEncadeada() {
+        inicio = fim = null;
     }
 
     public void inicializa()
@@ -256,7 +257,7 @@ public class ListaEncadeada {
 
     }
 
-    public void quickSemPivo(int ini, int fi)
+    public void quickSP(int ini, int fi)
     {
         int i = ini, j = fi, aux;
 
@@ -278,13 +279,18 @@ public class ListaEncadeada {
         }
 
         if(ini < i-1)
-            quickSemPivo(ini, i-1); 
+            quickSP(ini, i-1); 
         if(j+1 < fi)
-            quickSemPivo(j+1, fi);  
+            quickSP(j+1, fi);  
 
     }
 
-    public void quickComPivo(int ini, int fi)
+    public void quickSemPivo()
+    {
+        quickSP(0, tamanho-1);
+    }
+
+    public void quickCP(int ini, int fi)
     {
         int i = ini, j = fi, aux, pivo;
         pivo = retornaDist((ini+fi)/2).getInfo();
@@ -306,12 +312,16 @@ public class ListaEncadeada {
                 j--;
             }
         }
-
         if(ini < j)
-            quickComPivo(ini, j);
+            quickCP(ini, j);
         if(i < fi)
-            quickComPivo(i, fi);
+            quickCP(i, fi);
         
+    }
+
+    public void quickComPivo()
+    {
+        quickCP(0, tamanho-1);
     }
 
     public int buscaBinaria(int chave, int fi)
@@ -350,6 +360,73 @@ public class ListaEncadeada {
             
             retornaDist(pos).setInfo(aux);
         }
+    }
+
+    public void mergeSort_priImp()
+    {
+        int seq = 1;
+        ListaEncadeada l1 = new ListaEncadeada();
+        ListaEncadeada l2 = new ListaEncadeada();
+
+        while(seq < tamanho)
+        {
+            particao(l1,l2);
+            fusao(l1,l2,seq);
+            seq = seq *2;
+        }
+    }
+
+    public void particao(ListaEncadeada l1, ListaEncadeada l2)
+    {
+        int tam = tamanho/2;
+        No partL1, partL2;
+
+        if(l1.inicio != null && l2.inicio !=  null)
+        {
+            partL1 = l1.inicio;
+            partL2 = l2.inicio;
+            for(int i = 0; i< tam; i++)
+            {
+
+                l1.retornaDist(i).getInfo();
+                partL1.setInfo(retornaDist(i).getInfo());
+                partL1 = partL1.getProx();  
+                partL2.setInfo(retornaDist(i+tam).getInfo());
+                partL2 = partL2.getProx();
+            } 
+        }
+        else
+        {
+            for(int i = 0; i< tam; i++)
+            {
+               l1.inserirNoFim(retornaDist(i).getInfo());
+               l2.inserirNoFim(retornaDist(i+tam).getInfo());
+            } 
+        }
+        
+    }
+
+    public void fusao(ListaEncadeada l1, ListaEncadeada l2, int seq)
+    {
+        int i = 0, j = 0, k = 0, aux_seq = seq;
+
+        while(k < tamanho)
+        {
+            while(i < seq && j < seq)
+                if(l1.retornaDist(i).getInfo() < l2.retornaDist(j).getInfo())
+                    retornaDist(k++).setInfo(l1.retornaDist(i++).getInfo());
+                else
+                    retornaDist(k++).setInfo(l2.retornaDist(j++).getInfo()); 
+
+            while(i < seq)
+                retornaDist(k++).setInfo(l1.retornaDist(i++).getInfo());
+
+            while(j < seq)
+                retornaDist(k++).setInfo(l2.retornaDist(j++).getInfo()); 
+
+            seq = seq + aux_seq;
+        }
+
     }
 
     public void exibir()

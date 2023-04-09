@@ -27,9 +27,11 @@ public class Main {
         //lista.shake();
         //lista.shell();
         //lista.heap();
-        //lista.quickSemPivo(0, lista.getTamanho()-1);
-        //lista.quickComPivo(0, lista.getTamanho()-1);
-
+        //lista.quickSemPivo();
+        //lista.quickComPivo();
+        //lista.insercaoBinaria();
+        //lista.mergeSort_priImp();
+        
         lista.exibir();
     }
 }
