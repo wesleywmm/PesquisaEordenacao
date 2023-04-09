@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         ListaEncadeada lista = new ListaEncadeada();
-
+        
         lista.inicializa();
         lista.inserirNoInicio(10);
         lista.inserirNoInicio(20);
@@ -31,7 +31,8 @@ public class Main {
         //lista.quickComPivo();
         //lista.insercaoBinaria();
         //lista.mergeSort_priImp();
-        
+        //lista.mergeSort_segImp(lista);
+
         lista.exibir();
     }
 }

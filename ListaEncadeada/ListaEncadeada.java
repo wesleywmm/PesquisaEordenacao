@@ -1,5 +1,7 @@
 package ListaEncadeada;
 
+import ListadeLista.Lista;
+
 public class ListaEncadeada {
     
     private No inicio, fim;
@@ -362,20 +364,6 @@ public class ListaEncadeada {
         }
     }
 
-    public void mergeSort_priImp()
-    {
-        int seq = 1;
-        ListaEncadeada l1 = new ListaEncadeada();
-        ListaEncadeada l2 = new ListaEncadeada();
-
-        while(seq < tamanho)
-        {
-            particao(l1,l2);
-            fusao(l1,l2,seq);
-            seq = seq *2;
-        }
-    }
-
     public void particao(ListaEncadeada l1, ListaEncadeada l2)
     {
         int tam = tamanho/2;
@@ -429,6 +417,61 @@ public class ListaEncadeada {
 
     }
 
+    public void mergeSort_priImp()
+    {
+        int seq = 1;
+        ListaEncadeada l1 = new ListaEncadeada();
+        ListaEncadeada l2 = new ListaEncadeada();
+
+        while(seq < tamanho)
+        {
+            particao(l1,l2);
+            fusao(l1,l2,seq);
+            seq = seq *2;
+        }
+    }
+
+    public void fusao_2(ListaEncadeada aux, int ini1, int fim1, int ini2, int fim2)
+    {
+        
+            int i = ini1, j = ini2, k = 0;
+
+            while(i <= fim1 && j <= fim2)
+                if(retornaDist(i).getInfo() < retornaDist(j).getInfo())
+                    aux.retornaDist(k++).setInfo(retornaDist(i++).getInfo());
+                else
+                    aux.retornaDist(k++).setInfo(retornaDist(j++).getInfo());
+            
+            while(i <= fim1)
+                aux.retornaDist(k++).setInfo(retornaDist(i++).getInfo());
+
+            while(j <= fim2)
+                aux.retornaDist(k++).setInfo(retornaDist(j++).getInfo());
+                    
+            for(i = 0; i < k; i++)
+                retornaDist(i+ini1).setInfo(aux.retornaDist(i).getInfo());
+        
+    }
+
+    public void mergeSort(ListaEncadeada aux, int esq, int dir)
+    {
+        int meio;
+        if(esq < dir)
+        {
+            meio = (esq +dir)/2;
+            mergeSort(aux, esq, meio);
+            mergeSort(aux, meio+1, dir);
+            fusao_2(aux, esq, meio, meio+1, dir);
+        }
+    }
+
+    public void mergeSort_segImp(ListaEncadeada Laux)
+    {
+        mergeSort(Laux, 0, tamanho-1);
+    }
+
+
+    
     public void exibir()
     {
         No aux = inicio;
