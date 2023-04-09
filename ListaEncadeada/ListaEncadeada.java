@@ -517,6 +517,93 @@ public class ListaEncadeada {
         }
     }
 
+    int min(int a, int b)
+    {  
+        if(a < b)  
+            return a;      
+        return b;   
+    }
+
+    public void insercaoDiretaTim(int ini, int fi){
+        int auxInfo, ppos;
+        
+        if(inicio != null)
+        {
+            for(int i=ini+1; i<=fi; i++)
+            {    
+                auxInfo = retornaDist(i).getInfo();
+                ppos = i;
+                
+                while(ppos > ini && auxInfo < retornaDist(ppos-1).getInfo()) 
+                    retornaDist(ppos).setInfo(retornaDist(ppos--).getAnt().getInfo());
+
+                retornaDist(ppos).setInfo(auxInfo);
+            }
+        }
+    }
+
+    public void mergeTim(int esq, int meio, int dir) {
+        ListaEncadeada l1 = new ListaEncadeada();
+        ListaEncadeada l2 = new ListaEncadeada();
+        
+        int tl1=meio-esq+1, tl2=(dir-meio);
+        int i, j, k;
+        
+        for (i = 0; i < tl1; i++)
+            l1.inserirNoFim(retornaDist(esq+i).getInfo());
+        for (i = 0; i < tl2; i++) 
+            l2.inserirNoFim(retornaDist(meio+1+i).getInfo());
+
+        i = 0;
+        j = 0;
+        k = esq;
+        while (i < tl1 && j < tl2) 
+        {
+            if (l1.retornaDist(i++).getInfo() <= l2.retornaDist(j++).getInfo()) 
+            {
+                retornaDist(k++).setInfo(l1.retornaDist(i++).getInfo()); 
+                l1.retornaDist(i++).setInfo(l1.retornaDist(i++).getProx().getInfo());
+            } 
+            else 
+            {
+                retornaDist(k++).setInfo(l2.retornaDist(j++).getInfo());
+                l2.retornaDist(j++).setInfo(l2.retornaDist(j++).getProx().getInfo());
+            }
+           
+        }
+        while (i < tl1) 
+        {
+            retornaDist(k++).setInfo(l1.retornaDist(i++).getInfo());
+            l1.retornaDist(i++).setInfo(l1.retornaDist(i++).getProx().getInfo());   
+        }
+
+        while (j < tl2) 
+        {
+            retornaDist(k++).setInfo(l2.retornaDist(j++).getInfo());
+            l2.retornaDist(j++).setInfo(l2.retornaDist(j++).getProx().getInfo());
+        }
+    }
+
+    public void timSort()
+    {
+        int i, tam, bloco=32, ini, meio, fim;  
+        
+        for (i = 0; i < tamanho; i+=bloco)  
+            insercaoDiretaTim(i, min((i+bloco-1),(tamanho-1)));  
+        
+        for (tam = bloco; tam < tamanho; tam = 2*tam)
+        {  
+            for (ini = 0; ini < tamanho; ini += 2*tam)
+            {  
+                meio = ini + tam - 1;  
+                fim = min((ini + 2*tam - 1), (tamanho-1)); 
+                
+                if(meio < fim)
+                    mergeTim(ini, meio, fim);  
+            }  
+        }  
+    } 
+
     public void exibir()
     {
         No aux = inicio;

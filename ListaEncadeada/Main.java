@@ -36,6 +36,7 @@ public class Main {
         //lista.mergeSort_segImp(lista);
         //lista.gnomeSort();
         //lista.combSort();
+        //lista.timSort();
         
         lista.exibirFormatado();
         
