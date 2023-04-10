@@ -11,11 +11,19 @@ public class Registro {
 
     public Registro()
     {
+
+    }
+
+    public Registro(int codigo)
+    {
+        this.codigo = codigo;
+        for(int i = 0; i < tf; i++)
+            nome[i] = 'X';
     }
 
     public Registro(int codigo, String Snome, int idade)
     {
-        this.codigo = codigo; //this � variavel de estancia
+        this.codigo = codigo; //this e variavel de estancia
         this.idade = idade;
         this.tl = Snome.length();
         for (int i = 0; i < Snome.length(); i++)

@@ -1,11 +1,17 @@
 package ArquivoJava;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Arquivo_Java {
     
     private String nomearquivo;
+    private int comp, mov;
     private RandomAccessFile arquivo;
 
     public Arquivo_Java(String nomearquivo)
@@ -46,6 +52,7 @@ public class Arquivo_Java {
         seekArq(filesize());//ultimo byte
         reg.gravaNoArq(arquivo);
     }
+
 
     public int filesize()
     {
@@ -97,25 +104,205 @@ public class Arquivo_Java {
     {
         int codigo, idade;
         String nome;
-        codigo = Entrada.leInteger("Digite o c�digo");
+        codigo = Entrada.leInteger("Digite o codigo");
         while (codigo != 0)
         {
             nome = Entrada.leString("Digite o nome");
             idade = Entrada.leInteger("Digite a idade");
             inserirRegNoFinal(new Registro(codigo, nome, idade));
-            codigo = Entrada.leInteger("Digite o c�digo");
+            codigo = Entrada.leInteger("Digite o codigo");
         }
     }
+
+
+    public void initComp() 
+    {
+       comp = 0; 
+    }
+    
+    public void initMov() 
+    {
+        mov = 0;
+    }
+    
+    public int getComp() 
+    {
+        return comp;
+    }
+    
+    public int getMov() 
+    {
+        return mov;
+    }
+
+    public void ordenado()
+    {
+        for(int i = 1; i<= 1024;i++)
+        {
+            inserirRegNoFinal(new Registro(i));
+        }
+    }
+
+    public void reverso()
+    {
+        for(int i = 1024; i>= 0;i--)
+        {
+            inserirRegNoFinal(new Registro(i));
+        }
+
+    }
+   /*  
+    public void randomico()
+    {
+        Random random = new Random();
+        List<Integer> ListaInt = new ArrayList<>();
+        int numeroAleatorio;
+        while (ListaInt.size() < 1024) 
+        {
+             numeroAleatorio = random.nextInt(1024);
+            if (!ListaInt.contains(numeroAleatorio))
+            {
+                ListaInt.add(numeroAleatorio);
+                inserirRegNoFinal(new Registro(i));
+            }
+        }
+    }
+    */
 
     //.............................................................................
     /*
     insira aqui os metodos de Ordenacao;
-
     */
-    public void executa()
+
+    public int buscaBinaria(Registro chave, int TL)
     {
-        leArq();
-        exibirArq();
+        int inicio=0, fim = TL-1, meio = fim /2;
+        Registro aux = new Registro();
+        seekArq(meio);
+        aux.leDoArq(arquivo);
+        while(inicio < fim && chave.getCodigo()!= aux.getCodigo())
+        {
+            if(chave.getCodigo() < aux.getCodigo())
+            {
+                fim = meio-1;
+                comp++;
+            }
+            else
+                inicio = meio+1;
+            
+            meio = (inicio+fim)/2;
+            seekArq(meio);
+            aux.leDoArq(arquivo);
+        }
+        if(chave.getCodigo() > aux.getCodigo())
+            return meio +1;
+        return meio;
+    }
+    
+    public void insercaoBinaria()
+    {
+        int i, pos;
+        Registro aux = new Registro();
+        Registro aux2 = new Registro();
+        Registro aux3 = new Registro();
+        for(i = 0; i < filesize(); i++)
+        {
+            seekArq(i);
+            aux.leDoArq(arquivo);
+            pos = buscaBinaria(aux,i);
+            for (int j = i; j>pos; j--)
+            {
+                seekArq(j);
+                aux2.leDoArq(arquivo);
+                seekArq(j-1);
+                aux3.leDoArq(arquivo);
+                
+                seekArq(j);
+                aux3.gravaNoArq(arquivo);
+                seekArq(j-1);
+                aux2.gravaNoArq(arquivo);
+                mov += 2;
+            }
+            seekArq(pos);
+            aux.gravaNoArq(arquivo);
+        }
+    } 
+
+    public void shakeSort()
+    {
+        int inicio = 0, fim = filesize()-1;
+        Registro reg = new Registro();
+        Registro regaux = new Registro();
+        while(inicio < fim)
+        {
+            for(int i = inicio; i<fim; i++)
+            {
+                seekArq(i);
+                reg.leDoArq(arquivo);
+                seekArq(i+1);
+                regaux.leDoArq(arquivo);
+                if(reg.getCodigo() > regaux.getCodigo())
+                {
+                    comp++;
+                    seekArq(i);
+                    regaux.gravaNoArq(arquivo);
+                    seekArq(i+1);
+                    reg.gravaNoArq(arquivo);
+                    mov += 2;
+                }
+            }
+            fim--;
+            for(int i = fim; i > inicio;i--)
+            {
+                seekArq(i);
+                reg.leDoArq(arquivo);
+                seekArq(i-1);
+                regaux.leDoArq(arquivo);
+                if(reg.getCodigo() < regaux.getCodigo())
+                {
+                    comp++;
+                    seekArq(i);
+                    regaux.gravaNoArq(arquivo);
+                    seekArq(i-1);
+                    reg.gravaNoArq(arquivo);
+                    mov +=2;
+                }
+            }
+            inicio++;
+        }
+    }
+
+    
+    //.............................................................................
+
+
+
+    public void executa() throws IOException
+    {
+        int tempIni, tempFim;
+        
+        FileWriter arqTxtResultado = new FileWriter("C:\\Users\\wesle\\OneDrive\\Área de Trabalho\\PO\\PesquisaEordenacao\\ArquivoJava\\TabelaDeResultados.txt");
+        PrintWriter gravarArq = new PrintWriter(arqTxtResultado);
+        
+        // Inserecao Binaria
+        initComp();initMov();
+        ordenado();
+        tempIni = (int) System.currentTimeMillis();
+        insercaoBinaria();
+        tempFim = (int) System.currentTimeMillis();
+        gravarArq.printf("Inserção binaria %n");
+        gravarArq.printf("arquivo ordenado -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+        initComp();initMov();
+        reverso();
+        tempIni=(int) System.currentTimeMillis();
+        insercaoBinaria();
+        tempFim=(int)System.currentTimeMillis();
+        gravarArq.printf("arquivo reverso -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+
+        gravarArq.close();
+
     }
 
 
