@@ -151,7 +151,7 @@ public class Arquivo_Java {
         }
 
     }
-   /*  
+     
     public void randomico()
     {
         Random random = new Random();
@@ -163,11 +163,11 @@ public class Arquivo_Java {
             if (!ListaInt.contains(numeroAleatorio))
             {
                 ListaInt.add(numeroAleatorio);
-                inserirRegNoFinal(new Registro(i));
+                inserirRegNoFinal(new Registro(ListaInt.size()));
             }
         }
     }
-    */
+    
 
     //.............................................................................
     /*
@@ -272,7 +272,63 @@ public class Arquivo_Java {
         }
     }
 
-    
+    public void bubbleSort()
+    {
+        int TL = filesize();
+        Registro reg = new Registro();
+        Registro regaux = new Registro();
+        while(TL > 1)
+        {
+            for(int i = 0; i < TL - 1; i++)
+            {
+                seekArq(i);
+                reg.leDoArq(arquivo);
+                regaux.leDoArq(arquivo);
+                if(reg.getCodigo() > regaux.getCodigo())
+                {
+                    comp++;
+                    seekArq(i);
+                    regaux.gravaNoArq(arquivo);
+                    reg.gravaNoArq(arquivo);
+                    mov +=2;
+                }
+            }
+            TL--;
+        }
+    }
+
+    public void selecaoDireta()
+    {
+        Registro reg = new Registro();
+        Registro regmenor = new Registro();
+        int menor, TL = filesize();
+        for(int i = 0; i < TL-1;i++)
+        {
+            menor = i;
+            seekArq(i);
+            regmenor.leDoArq(arquivo);
+            for(int j = i+1; j < TL;j++)
+            {
+                seekArq(j);
+                reg.leDoArq(arquivo);
+                if(reg.getCodigo() < regmenor.getCodigo())
+                {
+                    comp++;
+                    menor = j;
+                    seekArq(j);
+                    regmenor.leDoArq(arquivo);
+                }
+            }
+            seekArq(i);
+            reg.leDoArq(arquivo);
+            seekArq(menor);
+            reg.gravaNoArq(arquivo);
+            seekArq(i);
+            regmenor.gravaNoArq(arquivo);
+            mov += 2;
+        }
+    }
+
     //.............................................................................
 
 
@@ -291,14 +347,65 @@ public class Arquivo_Java {
         insercaoBinaria();
         tempFim = (int) System.currentTimeMillis();
         gravarArq.printf("Inserção binaria %n");
-        gravarArq.printf("arquivo ordenado -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+        gravarArq.printf("Arquivo ordenado -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
 
         initComp();initMov();
         reverso();
         tempIni=(int) System.currentTimeMillis();
         insercaoBinaria();
         tempFim=(int)System.currentTimeMillis();
-        gravarArq.printf("arquivo reverso -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+        gravarArq.printf("Arquivo reverso -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+        // ShakeSort
+
+        initComp();initMov();
+        ordenado();
+        tempIni = (int) System.currentTimeMillis();
+        shakeSort();
+        tempFim = (int) System.currentTimeMillis();
+        gravarArq.printf("ShakeSort %n");
+        gravarArq.printf("Arquivo ordenado -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+        initComp();initMov();
+        reverso();
+        tempIni=(int) System.currentTimeMillis();
+        shakeSort();
+        tempFim=(int)System.currentTimeMillis();
+        gravarArq.printf("Arquivo reverso -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+        
+        // BubbleSort
+
+        initComp();initMov();
+        ordenado();
+        tempIni = (int) System.currentTimeMillis();
+        bubbleSort();
+        tempFim = (int) System.currentTimeMillis();
+        gravarArq.printf("BubbleSort %n");
+        gravarArq.printf("Arquivo ordenado -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+        initComp();initMov();
+        bubbleSort();
+        tempIni=(int) System.currentTimeMillis();
+        bubbleSort();
+        tempFim=(int)System.currentTimeMillis();
+        gravarArq.printf("Arquivo reverso -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+        // Selecao Direta
+
+        initComp();initMov();
+        ordenado();
+        tempIni = (int) System.currentTimeMillis();
+        selecaoDireta();
+        tempFim = (int) System.currentTimeMillis();
+        gravarArq.printf("Seleçao Direta %n");
+        gravarArq.printf("Arquivo ordenado -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
+
+        initComp();initMov();
+        reverso();
+        tempIni=(int) System.currentTimeMillis();
+        selecaoDireta();
+        tempFim=(int)System.currentTimeMillis();
+        gravarArq.printf("Arquivo reverso -> Tempo: %d em milessimos %n Comparações: %d Movimentações: %d %n", (tempFim - tempIni), getComp(), getMov());
 
 
         gravarArq.close();
